@@ -1,0 +1,23 @@
+Here will be all the dependencies needed for the finance application project
+
+download node.js
+install npx
+
+npm create vite@latest
+y
+projectt name
+React framework
+Typescript programming langauge
+
+vite is fast when running in development
+
+recomended extensions:
+ES7+ React/Redux/React-Native snippet
+ESLint
+Prettier ESLint
+
+google chrome:
+Redux DevTools
+Pesticie for Chrome
+
+ npm i react-redux@reduxjs/toolkit react-router-dom @mui/material @emotion/react @emotion/styled @mui/icons-material @mui/x-data-grid
