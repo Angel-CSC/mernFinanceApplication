@@ -4,6 +4,7 @@ import { themeSettings } from "./theme"
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import Navbar from "@/scenes/navbar";
+import Dashboard from "@/scenes/dashboard";
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), [])
@@ -29,4 +30,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
