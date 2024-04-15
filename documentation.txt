@@ -23,3 +23,13 @@ Pesticie for Chrome
  npm i react-redux@reduxjs/toolkit react-router-dom @mui/material @emotion/react @emotion/styled @mui/icons-material @mui/x-data-grid
 
  npm i -D @types/react-dom
+
+ when installing @reduxjs/toolkit, install it using that!
+
+ when in school check how to add the school's ip address to be an auto use in the application being developed
+
+ mongodb+srv://angelgomez2004co:angelgomez2004co@cluster0.0dnnzhu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+ mongodb+srv://angelgomez2004co:angelgomez2004co@cluster0.0dnnzhu.mongodb.net/
+
+ MONGO_URL='mongodb+srv://angelgomez2004co:Anglutd896973##@cluster0.0dnnzhu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+PORT=1337
