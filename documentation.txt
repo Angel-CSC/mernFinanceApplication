@@ -28,8 +28,8 @@ Pesticie for Chrome
 
  when in school check how to add the school's ip address to be an auto use in the application being developed
 
- mongodb+srv://angelgomez2004co:angelgomez2004co@cluster0.0dnnzhu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
- mongodb+srv://angelgomez2004co:angelgomez2004co@cluster0.0dnnzhu.mongodb.net/
+ mongodb+srv://angelgomez2004co:3BBIXsU6kEIQVEo7@cluster0.0dnnzhu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+ mongodb+srv://angelgomez2004co:3BBIXsU6kEIQVEo7co@cluster0.0dnnzhu.mongodb.net/
 
  MONGO_URL='mongodb+srv://angelgomez2004co:Anglutd896973##@cluster0.0dnnzhu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 PORT=1337
