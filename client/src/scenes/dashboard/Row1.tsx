@@ -1,7 +1,7 @@
 import DashboardBox from '@/components/DashboardBox'
 import { useGetKpisQuery } from '@/state/api';
-import { ResponsiveContainer, AreaChart, LineChart, XAxis, YAxis, Tooltip, Area, Line, CartesianGrid, Legend } from 'recharts';
-import React, { useMemo } from 'react';
+import { ResponsiveContainer, AreaChart, LineChart, BarChart, XAxis, YAxis, Tooltip, Rectangle, Area, Line, Bar, CartesianGrid, Legend } from 'recharts';
+import { useMemo } from 'react';
 import { useTheme } from '@emotion/react';
 import BoxHeader from '@/components/BoxHeader';
 
@@ -534,12 +534,26 @@ const Row1 = () => {
     )
   }, [kpi])
 
+  const revenue = useMemo(() => {
+    return (
+      kpi &&
+      kpi[0].monthlyData.map(({month, revenue, expenses}) => {
+        return {
+          name: month.substring(0, 3),
+          revenue: convertStringToNumber(revenue),
+          profit: (convertStringToNumber(revenue) - convertStringToNumber(expenses)).toFixed(2)
+        }
+      })
+    )
+  }, [kpi])
+
   return (
     <>
         <DashboardBox gridArea="a">
           <BoxHeader title="Revenue and expenses"
           subtitle="Looking at the revenue and expenses during a given time period"
-          sideText="this is going to be replaced with actual numbers but imagine a constant percentage at the moment"/>
+          sideText={((revenueExpenses[revenueExpenses.length - 1].revenue - revenueExpenses[revenueExpenses.length - 1].expenses)/
+          (revenueExpenses[0].revenue - revenueExpenses[0].expenses)).toFixed(2) + "%"}/>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               width={500}
@@ -631,7 +645,53 @@ const Row1 = () => {
               </LineChart>
             </ResponsiveContainer>
           </DashboardBox>
-        <DashboardBox gridArea="c"></DashboardBox>
+        <DashboardBox gridArea="c">
+          <BoxHeader title="Revenue Month by Month"
+            subtitle="month by month revenue"
+            sideText="this is going to be replaced with actual numbers but imagine a constant percentage at the moment"
+          />
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              width={500}
+              height={300}
+              data={revenue}
+              margin={{
+                top: 17,
+                right: 15,
+                left: 5,
+                bottom: 58,
+              }}
+            >
+              <defs>
+                <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" 
+                  stopColor={palette.primary[300]} 
+                  stopOpacity={0.8}
+                  />
+                  <stop offset="95%" 
+                  stopColor={palette.primary[300]} 
+                  stopOpacity={0}
+                  />
+                </linearGradient>
+              </defs>
+              
+              <CartesianGrid vertical={false} stroke={palette.grey[800]}/>
+              <XAxis 
+              dataKey="name" 
+              axisLine={false} 
+              tickLine={false} 
+              style={{ fontSize: "10px"}}
+              />
+              <YAxis 
+              axisLine={false} 
+              tickLine={false} 
+              style={{ fontSize: "10px"}}
+              />
+              <Tooltip />
+              <Bar dataKey="revenue" fill="url(#colorRevenue)"  />
+            </BarChart>
+          </ResponsiveContainer>
+        </DashboardBox>
     </>
   )
 }
