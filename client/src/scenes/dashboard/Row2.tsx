@@ -1,20 +1,28 @@
 import DashboardBox from '@/components/DashboardBox'
 import { Month } from '@/state/types';
 import { useMemo } from 'react';
-import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Pie, PieChart, Cell, ScatterChart, Scatter, ZAxis } from 'recharts';
 import { useTheme } from '@emotion/react';
 import BoxHeader from '@/components/BoxHeader';
+import FlexBetween from '@/components/FlexBetween';
+import { Box, Typography } from '@mui/material';
+
+const pieData = [
+  { name: "Group A", value: 0},
+  { name: "Group B", value: 0}
+];
 
 const Row2 = () => {
   const { palette } = useTheme();
+  const pieColors = [palette.primary[800], palette.primary[300]]
   interface Product{
     _id: string;
     price: string;
     expense: string;
-    transactions: string[];
+    transactions: Array<string>;
   }
 
-  const products: Product[] = [
+  const products: Array<Product> = [
     {
       _id: "63bf7ac9f03239e002001600",
       price: "$43.41",
@@ -1643,8 +1651,8 @@ const Row2 = () => {
       kpi[0].monthlyData.map(({month, operationalExpenses, nonOperationalExpenses}) => {
         return{
           name: month.substring(0, 3),
-          "Operational Expenses": convertStringToNumber(operationalExpenses),
-          "Non Operational Expenses": convertStringToNumber(nonOperationalExpenses)
+          "Operational Expenses": parseFloat(convertStringToNumber(operationalExpenses)),
+          "Non Operational Expenses": parseFloat(convertStringToNumber(nonOperationalExpenses))
         }
       }
     )
@@ -1656,14 +1664,24 @@ const Row2 = () => {
       products.map(({_id, price, expense}) => {
         return {
           id: _id,
-          revenue: convertStringToNumber(price),
-          expenses: convertStringToNumber(expense)
+          price: convertStringToNumber(price),
+          expense: convertStringToNumber(expense)
         }
       })
     )
   }, [products])
 
+  const pieDataPopulate = useMemo(() => {
+    return(
+      kpi &&
+      kpi[0].monthlyData.map(({operationalExpenses, nonOperationalExpenses}) => {
+        pieData[0].value += parseFloat(convertStringToNumber(operationalExpenses))
+        pieData[1].value += parseFloat(convertStringToNumber(nonOperationalExpenses))
+      })
+    )
+  }, [pieData])
 
+  pieDataPopulate
   return (
     <>
         <DashboardBox gridArea="d">
@@ -1713,8 +1731,113 @@ const Row2 = () => {
             </LineChart>
           </ResponsiveContainer>
         </DashboardBox>
-        <DashboardBox gridArea="e"></DashboardBox>
-        <DashboardBox gridArea="f"></DashboardBox>
+        <DashboardBox gridArea="e">
+          <BoxHeader title="Campaigns and Targets" sideText="4%" subtitle="something goes here"/>
+          <FlexBetween mt="0.25rem" gap="1.5rem" pr="1rem">
+            <PieChart 
+            width={110} 
+            height={100}
+            margin={{
+              top: 0,
+              right: -10,
+              left: 10,
+              bottom: 0,
+            }}
+            >
+              <Pie
+                stroke="none"
+                data={pieData}
+                innerRadius={18}
+                outerRadius={38}
+                paddingAngle={2}
+                dataKey="value"
+              >
+                {pieData.map((entry, index) => (
+                  <Cell 
+                  key={`cell-${index}`} 
+                  fill={pieColors[index]}
+                />
+                ))}
+              </Pie>
+            </PieChart>
+            <Box ml="-0.7rem" flexBasis="40%" textAlign="center">
+              <Typography variant="h5">
+                Target Sales
+              </Typography>
+              <Typography m="0.3rem 0" variant="h3" color={palette.primary[300]}>
+                {/*This number can and will be adjusted to be inserted by the user, in this case business in use */}
+                83
+              </Typography>
+              <Typography variant="h6">
+                Finance goals of the cmapagn that is desired
+              </Typography>
+            </Box>
+            <Box flexBasis="40%">
+              <Typography variant="h5">
+                Losses in Revenue
+              </Typography>
+              <Typography variant="h6">
+                {/*from information, have a terniary with text that details information in text form*/}
+                Losses are down something something 25%
+              </Typography>
+              <Typography mt="0.4rem" variant="h5">
+                Profit Margins
+              </Typography>
+              <Typography variant="h6">
+                 {/*again this is attained from information given*/}
+                Margins are up by 30% last month
+              </Typography>
+            </Box>
+          </FlexBetween>
+        </DashboardBox>
+        <DashboardBox gridArea="f">
+        <BoxHeader title="Product Prices vs Expenses" sideText="4%" subtitle="something goes here"/>
+        <ResponsiveContainer width="100%" height="100%">
+          <ScatterChart
+            margin={{
+              top: 20,
+              right: 25,
+              bottom: 40,
+              left: -10,
+            }}
+          >
+          <CartesianGrid stroke={palette.grey[800]}/>
+          <XAxis 
+            type="number" 
+            dataKey="price" 
+            name="price" 
+            axisLine={false}
+            tickLine={false}
+            style={{
+              fontSize: "10px"
+            }}
+            tickFormatter={(v) => `$${v}`}
+          />
+          <YAxis
+            type="number" 
+            dataKey="expense" 
+            name="expense" 
+            axisLine={false}
+            tickLine={false}
+            style={{
+              fontSize: "10px"
+            }}
+            tickFormatter={(v) => `$${v}`}
+          />
+          <ZAxis
+            type="number"
+            range={[20]}
+          />
+          <Tooltip
+            formatter={(v) => `$${v}`}
+          />
+          <Scatter 
+          name="Product Expense Ratio" 
+          data={productExpenseData} 
+          fill={palette.tertiary[500]} />
+        </ScatterChart>
+      </ResponsiveContainer>
+        </DashboardBox>
     </>
   )
 }
