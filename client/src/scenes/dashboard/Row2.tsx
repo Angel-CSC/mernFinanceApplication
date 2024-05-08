@@ -6,7 +6,7 @@ import { useTheme } from '@emotion/react';
 import BoxHeader from '@/components/BoxHeader';
 
 const Row2 = () => {
-  const { palette } = useTheme;
+  const { palette } = useTheme();
   interface Product{
     _id: string;
     price: string;
@@ -1638,15 +1638,17 @@ const Row2 = () => {
   }
 
   const operationalExpenses = useMemo(() => {
-    kpi &&
-    kpi[0].monthlyData.map(({month, operationalExpenses, nonOperationalExpenses}) => {
-      return{
-        name: month.substring(0, 3),
-        "Operational Expenses": convertStringToNumber(operationalExpenses),
-        "NonOperational Expenses": convertStringToNumber(nonOperationalExpenses)
+    return(
+      kpi &&
+      kpi[0].monthlyData.map(({month, operationalExpenses, nonOperationalExpenses}) => {
+        return{
+          name: month.substring(0, 3),
+          "Operational Expenses": convertStringToNumber(operationalExpenses),
+          "Non Operational Expenses": convertStringToNumber(nonOperationalExpenses)
+        }
       }
-    })
-  })
+    )
+    )}, [kpi])
 
   const productExpenseData = useMemo(() => {
     return (
@@ -1665,12 +1667,12 @@ const Row2 = () => {
   return (
     <>
         <DashboardBox gridArea="d">
-          <BoxHeader title="Profit and Revenue"
+          <BoxHeader title="Operational vs Non-Operational expenses"
             subtitle="Looking at the revenue and expenses during a given time period"
             sideText="this is going to be replaced with actual numbers but imagine a constant percentage at the moment"/>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
-              data={revenueProfit}
+              data={operationalExpenses}
               margin={{
                 top: 20,
                 right: 0,
@@ -1680,22 +1682,32 @@ const Row2 = () => {
             >
               <CartesianGrid vertical={false} stroke={palette.grey[800]}/>
               <XAxis dataKey="name" tickLine={false} style={{fontSize: "10px"}}/>
-              <YAxis yAxisId="left" tickLine={false} axisLine={false} style={{fontSize: "10px"}}/>
-              <YAxis yAxisId="right" orientation="right" tickLine={false} axisLine={false} style={{fontSize: "10px"}}/>
+              <YAxis 
+                yAxisId="left"
+                orientation="left"
+                tickLine={false} 
+                axisLine={false} 
+                style={{fontSize: "10px"}}
+              />
+              <YAxis 
+                yAxisId="right" 
+                orientation="right" 
+                tickLine={false} 
+                axisLine={false} 
+                style={{fontSize: "10px"}}
+              />
               <Tooltip />
-              <Legend height={20} wrapperStyle={{                  margin: "0 0 10px 0"
-                }}/>
               <Line 
                 yAxisId="left"
                 type="monotone"
-                dataKey="profit"
+                dataKey="Non Operational Expenses"
                 stroke={palette.tertiary[500]}
               />
               
               <Line 
                 yAxisId="right"
                 type="monotone"
-                dataKey="revenue"
+                dataKey="Operational Expenses"
                 stroke={palette.primary.main}
               />
             </LineChart>
