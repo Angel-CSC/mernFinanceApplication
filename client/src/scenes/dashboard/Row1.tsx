@@ -2,7 +2,7 @@ import DashboardBox from '@/components/DashboardBox'
 import { useGetKpisQuery } from '@/state/api';
 import { ResponsiveContainer, AreaChart, LineChart, BarChart, XAxis, YAxis, Tooltip, Rectangle, Area, Line, Bar, CartesianGrid, Legend } from 'recharts';
 import { useMemo } from 'react';
-import { useTheme } from '@emotion/react';
+import { useTheme } from '@mui/material';
 import BoxHeader from '@/components/BoxHeader';
 
 

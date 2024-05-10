@@ -2,10 +2,9 @@ import DashboardBox from '@/components/DashboardBox'
 import { Month } from '@/state/types';
 import { useMemo } from 'react';
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Pie, PieChart, Cell, ScatterChart, Scatter, ZAxis } from 'recharts';
-import { useTheme } from '@emotion/react';
 import BoxHeader from '@/components/BoxHeader';
 import FlexBetween from '@/components/FlexBetween';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 
 const pieData = [
   { name: "Group A", value: 0},

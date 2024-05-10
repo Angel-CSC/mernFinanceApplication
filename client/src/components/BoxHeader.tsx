@@ -5,7 +5,7 @@ import { Box, useTheme, Typography } from "@mui/material";
 
 type Props = {
     icon?: React.ReactNode;
-    subtitle: string;
+    subtitle?: string;
     sideText?: string;
     title: string; //no question mark so this will be required type
 }
